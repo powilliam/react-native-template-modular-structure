@@ -1,0 +1,13 @@
+{
+  "name": "react-native-template-modular-structure",
+  "version": "0.0.1",
+  "repository": "git@github.com:powilliam/react-native-template-moduler-structure",
+  "author": "William Porto <william.porto@nave.rs>",
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "template",
+    "typescript",
+    "boilerplate"
+  ]
+}
