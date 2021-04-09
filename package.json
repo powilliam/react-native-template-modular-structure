@@ -1,7 +1,7 @@
 {
   "name": "react-native-template-modular-structure",
-  "version": "0.0.3",
-  "repository": "git@github.com:powilliam/react-native-template-moduler-structure",
+  "version": "0.0.4",
+  "repository": "git@github.com:powilliam/react-native-template-modular-structure",
   "author": "William Porto <william.porto@nave.rs>",
   "license": "MIT",
   "keywords": [
