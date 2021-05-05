@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect } from "react";
 import { useColorScheme } from "react-native";
-import { ThemeProvider as StyledThemeProvider } from "styled-components";
+import { ThemeProvider as StyledThemeProvider } from "styled-components/native";
 import AndroidNavigationBar from "react-native-android-navigation-bar";
 
 import { ThemeProviderProps } from "app/shared/contexts/theme.d";
