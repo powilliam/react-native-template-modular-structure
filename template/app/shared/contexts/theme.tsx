@@ -1,21 +1,9 @@
-import React, { useMemo, useEffect, ReactNode } from "react";
+import React, { useMemo, useEffect } from "react";
 import { useColorScheme } from "react-native";
-import {
-  ThemeProvider as StyledThemeProvider,
-  DefaultTheme,
-} from "styled-components";
+import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import AndroidNavigationBar from "react-native-android-navigation-bar";
 
-export interface Themes {
-  light?: DefaultTheme;
-  dark?: DefaultTheme;
-  fallback: DefaultTheme;
-}
-
-export interface ThemeProviderProps {
-  theme: Themes;
-  children?: ReactNode;
-}
+import { ThemeProviderProps } from "app/shared/contexts/theme.d";
 
 export function ThemeProvider({ theme, children }: ThemeProviderProps) {
   const colorScheme = useColorScheme();
