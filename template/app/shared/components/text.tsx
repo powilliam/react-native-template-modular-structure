@@ -1,5 +1,4 @@
-import { TextProps as RNTextProps } from 'react-native';
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 import {
   space,
   color,
@@ -7,26 +6,9 @@ import {
   border,
   variant,
   typography,
-  SpaceProps,
-  ColorProps,
-  LayoutProps,
-  BorderProps,
-  TypographyProps,
-} from 'styled-system';
+} from "styled-system";
 
-export enum TextVariants {}
-
-export interface WithVariant {
-  variant?: TextVariants;
-}
-
-export type TextProps = RNTextProps &
-  SpaceProps &
-  ColorProps &
-  LayoutProps &
-  BorderProps &
-  TypographyProps &
-  WithVariant;
+import { TextProps } from "app/shared/components/types";
 
 export const Text = styled.Text<TextProps>`
   ${space};
