@@ -8,7 +8,7 @@ import {
   typography,
 } from "styled-system";
 
-import { TextProps } from "app/shared/components/types";
+import { TextProps } from "app/shared/components/text.d";
 
 export const Text = styled.Text<TextProps>`
   ${space};
