@@ -1,5 +1,6 @@
 import React from "react";
-import { render } from "@testing-library/react-native";
+
+import { render } from "app/shared/utils";
 
 import { AppModule } from "app/app-module";
 
