@@ -1,8 +1,8 @@
 import React from "react";
 import { Text } from "react-native";
-import { render } from "@testing-library/react-native";
 
 import { View } from "app/shared/components/view";
+import { render } from "app/shared/utils";
 
 describe("View Component", () => {
   it("should be able to render", () => {
