@@ -8,7 +8,10 @@ import React, {
   ReactNode,
 } from "react";
 import { Appearance, ColorSchemeName } from "react-native";
-import { ThemeProvider as StyledThemeProvider } from "styled-components/native";
+import {
+  DefaultTheme,
+  ThemeProvider as StyledThemeProvider,
+} from "styled-components/native";
 import AndroidNavigationBar from "react-native-android-navigation-bar";
 
 import {
@@ -42,6 +45,7 @@ export function ThemeConsumer({ children }: ThemeConsumerProps) {
 export function ThemeProvider({
   light,
   dark,
+  fallback,
   themes,
   children,
 }: ThemeProviderProps) {
@@ -49,10 +53,11 @@ export function ThemeProvider({
     () => (Appearance.getColorScheme() === "dark" && !!dark ? "dark" : "light")
   );
 
-  const theme = useMemo(
-    () => (currentColorScheme === "dark" && !!dark ? dark : light),
-    [currentColorScheme, dark, light]
-  );
+  const theme = useMemo(() => {
+    if (currentColorScheme === "light" && !!light) return light;
+    if (currentColorScheme === "dark" && !!dark) return dark;
+    return fallback;
+  }, [currentColorScheme, dark, light, fallback]);
 
   const onPreferencesChanged = useCallback<Appearance.AppearanceListener>(
     (preferences) =>

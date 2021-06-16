@@ -20,8 +20,9 @@ export interface ThemeContextProps {
 }
 
 export interface ThemeProviderProps {
-  light: DefaultTheme;
+  light?: DefaultTheme;
   dark?: DefaultTheme;
+  fallback: DefaultTheme;
   themes?: Theme[];
   children?: ReactNode;
 }

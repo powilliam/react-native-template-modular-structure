@@ -7,11 +7,11 @@ import { View, Text } from "app/shared/components";
 
 export function AppModule() {
   return (
-    <ThemeProvider light={light} dark={dark}>
+    <ThemeProvider dark={dark} fallback={light}>
       <ThemeConsumer>
         {({
-          schema,
           theme: {
+            dark,
             colors: { background },
           },
         }) => (
@@ -26,7 +26,7 @@ export function AppModule() {
           >
             <StatusBar
               backgroundColor={background}
-              barStyle={schema === "light" ? "dark-content" : "light-content"}
+              barStyle={dark ? "light-content" : "dark-content"}
             />
 
             <Text fontSize="16px" letterSpacing="0.6px" color="onBackground">
