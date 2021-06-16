@@ -1,24 +1,20 @@
 import React from "react";
-import { SafeAreaView, StatusBar, useColorScheme } from "react-native";
-import { ThemeConsumer } from "styled-components/native";
+import { SafeAreaView, StatusBar } from "react-native";
 
-import { ThemeProvider } from "app/shared/contexts";
+import { ThemeProvider, ThemeConsumer } from "app/shared/contexts";
 import { dark, light } from "app/shared/themes";
 import { View, Text } from "app/shared/components";
 
-const theme = {
-  dark,
-  light,
-  fallback: light,
-};
-
 export function AppModule() {
-  const colorScheme = useColorScheme();
-
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider dark={dark} fallback={light}>
       <ThemeConsumer>
-        {({ colors: { background } }) => (
+        {({
+          theme: {
+            dark,
+            colors: { background },
+          },
+        }) => (
           <View
             flex={1}
             as={SafeAreaView}
@@ -30,9 +26,7 @@ export function AppModule() {
           >
             <StatusBar
               backgroundColor={background}
-              barStyle={
-                colorScheme === "light" ? "dark-content" : "light-content"
-              }
+              barStyle={dark ? "light-content" : "dark-content"}
             />
 
             <Text fontSize="16px" letterSpacing="0.6px" color="onBackground">
