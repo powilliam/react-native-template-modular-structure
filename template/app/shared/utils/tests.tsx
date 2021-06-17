@@ -8,7 +8,7 @@ export * from "@testing-library/react-native";
 
 function MockThemeProvider({ children }: { children: ReactElement }) {
   return (
-    <ThemeProvider light={light} dark={dark} fallback={light}>
+    <ThemeProvider light={light} dark={dark} observeChanges={false}>
       {children}
     </ThemeProvider>
   );
