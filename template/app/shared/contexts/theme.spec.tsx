@@ -1,35 +1,46 @@
 import React from "react";
 import { Text, Appearance } from "react-native";
 
-import { ThemeConsumer } from "app/shared/contexts";
+import { ThemeProvider, ThemeConsumer } from "app/shared/contexts";
 import { light, dark } from "app/shared/themes";
 import { render } from "app/shared/utils";
 
-const TestableComponent = () => (
+const Consumer = () => (
   <ThemeConsumer>
-    {({ theme }) => <Text>{theme.colors.primary}</Text>}
+    {({ theme }) => <Text testID="primary-color">{theme.colors.primary}</Text>}
   </ThemeConsumer>
+);
+
+const WithMultiTheme = () => (
+  <ThemeProvider light={light} dark={dark}>
+    <Consumer />
+  </ThemeProvider>
+);
+
+const WithSingleTheme = () => (
+  <ThemeProvider only={light}>
+    <Consumer />
+  </ThemeProvider>
 );
 
 describe("Theme Context", () => {
   it("should be able to share light ui theme", () => {
     jest.spyOn(Appearance, "getColorScheme").mockImplementation(() => "light");
+    const { getByText } = render(<WithMultiTheme />);
 
-    const { getByText } = render(<TestableComponent />);
     expect(getByText(light.colors.primary)).toBeTruthy();
   });
 
   it("should be able to share dark ui theme", () => {
     jest.spyOn(Appearance, "getColorScheme").mockImplementation(() => "dark");
+    const { getByText } = render(<WithMultiTheme />);
 
-    const { getByText } = render(<TestableComponent />);
     expect(getByText(dark.colors.primary)).toBeTruthy();
   });
 
-  it("should be able to share fallback ui theme", () => {
-    jest.spyOn(Appearance, "getColorScheme").mockImplementation(() => null);
+  it("should be able to share a light as single theme", () => {
+    const { getByText } = render(<WithSingleTheme />);
 
-    const { getByText } = render(<TestableComponent />);
     expect(getByText(light.colors.primary)).toBeTruthy();
   });
 });
