@@ -8,10 +8,7 @@ import React, {
   ReactNode,
 } from "react";
 import { Appearance, ColorSchemeName } from "react-native";
-import {
-  DefaultTheme,
-  ThemeProvider as StyledThemeProvider,
-} from "styled-components/native";
+import { ThemeProvider as StyledThemeProvider } from "styled-components/native";
 import AndroidNavigationBar from "react-native-android-navigation-bar";
 
 import {
@@ -45,46 +42,65 @@ export function ThemeConsumer({ children }: ThemeConsumerProps) {
 export function ThemeProvider({
   light,
   dark,
-  fallback,
-  themes,
+  only,
+  observeChanges,
   children,
 }: ThemeProviderProps) {
   const [currentColorScheme, setCurrentColorScheme] = useState<ColorSchemeName>(
-    () => (Appearance.getColorScheme() === "dark" && !!dark ? "dark" : "light")
+    () => Appearance.getColorScheme()
   );
 
   const theme = useMemo(() => {
-    if (currentColorScheme === "light" && !!light) return light;
-    if (currentColorScheme === "dark" && !!dark) return dark;
-    return fallback;
-  }, [currentColorScheme, dark, light, fallback]);
+    if (!light && !dark && only) {
+      return only;
+    }
+    if (currentColorScheme === "light" && !!light) {
+      return light;
+    }
+    if (currentColorScheme === "dark" && !!dark) {
+      return dark;
+    }
+  }, [currentColorScheme, dark, light, only]);
+
+  const toggle = useCallback(
+    () =>
+      !dark && !light
+        ? console.warn(
+            "Cannot toggle without light and dark theme specified at ThemeProvider props"
+          )
+        : setCurrentColorScheme((latest) =>
+            latest === "light" ? "dark" : "light"
+          ),
+    [dark, light]
+  );
 
   const onPreferencesChanged = useCallback<Appearance.AppearanceListener>(
-    (preferences) =>
-      setCurrentColorScheme(() =>
-        preferences.colorScheme === "dark" && !!dark ? "dark" : "light"
-      ),
+    ({ colorScheme }) => setCurrentColorScheme(() => colorScheme),
     []
   );
 
   useEffect(() => {
-    AndroidNavigationBar.changeColor(
-      theme.colors.background,
-      !theme.dark,
-      true
-    );
+    if (theme) {
+      AndroidNavigationBar.changeColor(
+        theme.colors.background,
+        !theme.dark,
+        true
+      );
+    }
   }, [theme]);
 
   useEffect(() => {
-    Appearance.addChangeListener(onPreferencesChanged);
-    return () => Appearance.removeChangeListener(onPreferencesChanged);
-  });
+    if (observeChanges) {
+      Appearance.addChangeListener(onPreferencesChanged);
+      return () => Appearance.removeChangeListener(onPreferencesChanged);
+    }
+  }, [observeChanges, onPreferencesChanged]);
 
   return (
     <ThemeContext.Provider
-      value={{ schema: currentColorScheme, theme, themes }}
+      value={{ schema: currentColorScheme, theme: theme!!, toggle }}
     >
-      <StyledThemeProvider theme={theme}>{children}</StyledThemeProvider>
+      <StyledThemeProvider theme={theme!!}>{children}</StyledThemeProvider>
     </ThemeContext.Provider>
   );
 }

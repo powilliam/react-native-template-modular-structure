@@ -4,25 +4,31 @@ import { DefaultTheme } from "styled-components/native";
 
 export type ThemeConsumable = (context: ThemeContextProps) => ReactNode;
 
-export interface ThemeConsumerProps {
-  children: ThemeConsumable;
+export interface DefaultProps {
+  children?: ReactNode;
 }
 
-export interface Theme {
-  key: string | symbol;
-  theme: DefaultTheme;
+export interface ThemeConsumerProps {
+  children: ThemeConsumable;
 }
 
 export interface ThemeContextProps {
   theme: DefaultTheme;
   schema: ColorSchemeName;
-  themes?: Theme[];
+  toggle(): void;
+}
+export interface WithDarkScheme extends DefaultProps {
+  light: DefaultTheme;
+  dark: DefaultTheme;
+  only?: DefaultTheme;
+  observeChanges: boolean;
 }
 
-export interface ThemeProviderProps {
+export interface WithSingleTheme extends DefaultProps {
+  only: DefaultTheme;
   light?: DefaultTheme;
   dark?: DefaultTheme;
-  fallback: DefaultTheme;
-  themes?: Theme[];
-  children?: ReactNode;
+  observeChanges?: boolean;
 }
+
+export type ThemeProviderProps = WithDarkScheme | WithSingleTheme;
