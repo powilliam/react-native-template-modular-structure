@@ -1,5 +1,6 @@
 import React from "react";
 import { SafeAreaView, StatusBar, Pressable } from "react-native";
+import Octicons from "react-native-vector-icons/Octicons";
 
 import { ThemeProvider, ThemeConsumer } from "app/shared/contexts";
 import { dark, light } from "app/shared/themes";
@@ -21,7 +22,7 @@ export function AppModule() {
           {({
             theme: {
               dark,
-              colors: { background },
+              colors: { primary, background },
             },
             toggle,
           }) => (
@@ -31,9 +32,20 @@ export function AppModule() {
                 barStyle={dark ? "light-content" : "dark-content"}
               />
 
-              <Text fontSize="16px" letterSpacing="0.6px" color="onBackground">
-                Hello World
-              </Text>
+              <View flexDirection="row" alignItems="center">
+                <Octicons name="heart" size={24} color={primary} />
+
+                <Text
+                  mx="8px"
+                  fontSize="16px"
+                  letterSpacing="0.6px"
+                  color="onBackground"
+                >
+                  Hello World
+                </Text>
+
+                <Octicons name="heart" size={24} color={primary} />
+              </View>
 
               <View mt="14px">
                 <Pressable onPress={toggle}>
